@@ -6,7 +6,8 @@ import re
 import time
 import io
 import mimetypes
-from urllib.parse import unquote
+from urllib.parse import unquote, urlparse
+import zipfile
 
 
 ROOT_DIR = os.path.abspath(os.getcwd())
@@ -91,7 +92,9 @@ class Handler(SimpleHTTPRequestHandler):
                 self.wfile.write(json.dumps({'ok': False, 'error': str(e)}).encode('utf-8'))
         elif self.path.startswith('/download/'):
             # تنزيل ملف من داخل مجلد assets فقط
-            rel = unquote(self.path[len('/download/'):]).replace('\\', '/').lstrip('/')
+            rel_raw = self.path[len('/download/'):]
+            parsed = urlparse(rel_raw)
+            rel = unquote(parsed.path).replace('\\', '/').lstrip('/')
             if not rel:
                 self.send_response(400)
                 self.send_header('Content-Type', 'application/json; charset=utf-8')
@@ -110,25 +113,49 @@ class Handler(SimpleHTTPRequestHandler):
                 self.wfile.write(json.dumps({'ok': False, 'error': 'Access denied'}).encode('utf-8'))
                 return
 
-            if not os.path.exists(target_path) or not os.path.isfile(target_path):
+            if not os.path.exists(target_path):
                 self.send_response(404)
                 self.send_header('Content-Type', 'application/json; charset=utf-8')
                 self.end_headers()
                 self.wfile.write(json.dumps({'ok': False, 'error': 'File not found'}).encode('utf-8'))
                 return
 
-            ctype = mimetypes.guess_type(target_path)[0] or 'application/octet-stream'
             try:
-                with open(target_path, 'rb') as f:
-                    content = f.read()
-                self.send_response(200)
-                self.send_header('Content-Type', ctype)
-                self.send_header('Content-Length', str(len(content)))
-                self.send_header('Content-Disposition', f'attachment; filename="{os.path.basename(target_path)}"')
-                self.send_header('Access-Control-Allow-Origin', '*')
-                self.end_headers()
-                self.wfile.write(content)
-                return
+                if os.path.isdir(target_path):
+                    # إنشاء ملف ZIP في الذاكرة للمجلد المطلوب
+                    buf = io.BytesIO()
+                    base_dir = os.path.dirname(target_path)
+                    base_name = os.path.basename(target_path) or 'assets'
+                    with zipfile.ZipFile(buf, 'w', zipfile.ZIP_DEFLATED) as zf:
+                        for root, _, files in os.walk(target_path):
+                            for name in files:
+                                abs_file = os.path.join(root, name)
+                                # ضع داخل الأرشيف مع مسار نسبي يشمل اسم المجلد
+                                arcname = os.path.relpath(abs_file, base_dir)
+                                zf.write(abs_file, arcname)
+                    buf.seek(0)
+                    content = buf.getvalue()
+                    self.send_response(200)
+                    self.send_header('Content-Type', 'application/zip')
+                    self.send_header('Content-Length', str(len(content)))
+                    self.send_header('Content-Disposition', f'attachment; filename="{base_name}.zip"')
+                    self.send_header('Access-Control-Allow-Origin', '*')
+                    self.end_headers()
+                    self.wfile.write(content)
+                    return
+                else:
+                    # تنزيل ملف عادي
+                    ctype = mimetypes.guess_type(target_path)[0] or 'application/octet-stream'
+                    with open(target_path, 'rb') as f:
+                        content = f.read()
+                    self.send_response(200)
+                    self.send_header('Content-Type', ctype)
+                    self.send_header('Content-Length', str(len(content)))
+                    self.send_header('Content-Disposition', f'attachment; filename="{os.path.basename(target_path)}"')
+                    self.send_header('Access-Control-Allow-Origin', '*')
+                    self.end_headers()
+                    self.wfile.write(content)
+                    return
             except Exception as e:
                 self.send_response(500)
                 self.send_header('Content-Type', 'application/json; charset=utf-8')

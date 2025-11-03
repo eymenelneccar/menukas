@@ -2,31 +2,46 @@
   {
     "name": "كص وزن",
     "size": "small",
-    "imageUrl": ""
+    "imageUrl": "assets/images/51.jpg"
   },
   {
     "name": "ساندويش",
     "size": "small",
-    "imageUrl": ""
+    "imageUrl": "assets/images/22.jpg"
   },
   {
     "name": "وجبات الشاورما",
     "size": "small",
-    "imageUrl": ""
+    "imageUrl": "assets/images/4.jpg"
   },
   {
     "name": "الأطباق الجانبية",
     "size": "small",
-    "imageUrl": ""
+    "imageUrl": "assets/images/5_2_.jpg"
   },
   {
     "name": "المقبلات",
     "size": "small",
-    "imageUrl": ""
+    "imageUrl": "assets/images/1.jpg"
   },
   {
     "name": "المشروبات",
     "size": "small",
-    "imageUrl": ""
+    "imageUrl": "assets/images/WhatsApp_Image_2025-11-03_at_03.18.05_112b8db0.jpg"
+  },
+  {
+    "name": "برجر",
+    "size": "small",
+    "imageUrl": "assets/images/10_2_.jpg"
+  },
+  {
+    "name": "فنكر ",
+    "size": "small",
+    "imageUrl": "assets/images/photo_2025-11-03_13-43-37.jpg"
+  },
+  {
+    "name": "اكلات منوعة ",
+    "size": "small",
+    "imageUrl": "assets/images/14_2_.jpg"
   }
 ]

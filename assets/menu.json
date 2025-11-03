@@ -80,8 +80,8 @@
     "name": "طبق شاورما دجاج شبابي",
     "category": "كص وزن",
     "price": 16000,
-    "imageUrl": "",
-    "description": ""
+    "imageUrl": "assets/images/WhatsApp_Image_2025-11-03_at_02.59.01_657f1d4d.jpg",
+    "description": "وجبة دجاج شبابي مكونة من ٣٢ قطعة اضافة الى فنكر وصلصات"
   },
   {
     "id": 1761556478420,
@@ -256,14 +256,6 @@
     "description": ""
   },
   {
-    "id": 1761556777814,
-    "name": "تشريب كص لحم",
-    "category": "الأطباق الجانبية",
-    "price": 12000,
-    "imageUrl": "",
-    "description": ""
-  },
-  {
     "id": 1761556785007,
     "name": "ريزو لحم",
     "category": "الأطباق الجانبية",
@@ -276,7 +268,7 @@
     "name": "ريزو شاورما دجاج",
     "category": "الأطباق الجانبية",
     "price": 5000,
-    "imageUrl": "",
+    "imageUrl": "assets/images/WhatsApp_Image_2025-11-03_at_03.03.22_914c1d60.jpg",
     "description": ""
   },
   {

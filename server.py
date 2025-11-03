@@ -5,6 +5,8 @@ import base64
 import re
 import time
 import io
+import mimetypes
+from urllib.parse import unquote
 
 
 ROOT_DIR = os.path.abspath(os.getcwd())
@@ -87,6 +89,51 @@ class Handler(SimpleHTTPRequestHandler):
                 self.send_header('Content-Type', 'application/json; charset=utf-8')
                 self.end_headers()
                 self.wfile.write(json.dumps({'ok': False, 'error': str(e)}).encode('utf-8'))
+        elif self.path.startswith('/download/'):
+            # تنزيل ملف من داخل مجلد assets فقط
+            rel = unquote(self.path[len('/download/'):]).replace('\\', '/').lstrip('/')
+            if not rel:
+                self.send_response(400)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({'ok': False, 'error': 'Missing path'}).encode('utf-8'))
+                return
+
+            assets_root = os.path.abspath(os.path.join(ROOT_DIR, 'assets'))
+            target_path = os.path.abspath(os.path.join(ROOT_DIR, rel))
+
+            # أمان: السماح بالتنزيل فقط من مجلد الأصول
+            if not (target_path.startswith(assets_root + os.sep) or target_path == assets_root):
+                self.send_response(403)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({'ok': False, 'error': 'Access denied'}).encode('utf-8'))
+                return
+
+            if not os.path.exists(target_path) or not os.path.isfile(target_path):
+                self.send_response(404)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({'ok': False, 'error': 'File not found'}).encode('utf-8'))
+                return
+
+            ctype = mimetypes.guess_type(target_path)[0] or 'application/octet-stream'
+            try:
+                with open(target_path, 'rb') as f:
+                    content = f.read()
+                self.send_response(200)
+                self.send_header('Content-Type', ctype)
+                self.send_header('Content-Length', str(len(content)))
+                self.send_header('Content-Disposition', f'attachment; filename="{os.path.basename(target_path)}"')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(content)
+                return
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({'ok': False, 'error': 'Download failed', 'details': str(e)}).encode('utf-8'))
         else:
             # ملفات ثابتة
             return super().do_GET()

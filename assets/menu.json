@@ -1,0 +1,354 @@
+[
+  {
+    "id": 1761510933608,
+    "type": "subheading",
+    "name": "كص لحم",
+    "category": "كص وزن"
+  },
+  {
+    "id": 1761511341588,
+    "name": "شاورما لحم كيلو",
+    "category": "كص وزن",
+    "price": 55000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761511542700,
+    "name": "شاورما لحم نصف كيلو",
+    "category": "كص وزن",
+    "price": 27000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761511551527,
+    "name": "شاورما لحم ربع كيلو",
+    "category": "كص وزن",
+    "price": 14000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761511561909,
+    "name": "صينية شاورما لحم",
+    "category": "كص وزن",
+    "price": 40000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761511571359,
+    "type": "subheading",
+    "name": "كص دجاج",
+    "category": "كص وزن"
+  },
+  {
+    "id": 1761511583628,
+    "name": "شاورما دجاج كيلو",
+    "category": "كص وزن",
+    "price": 30000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761511643723,
+    "name": "شاورما دجاج نصف كيلو",
+    "category": "كص وزن",
+    "price": 15000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761511649130,
+    "name": "شاورما دجاج ربع كيلو",
+    "category": "كص وزن",
+    "price": 7000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761511655616,
+    "name": "طبق شاورما دجاج عائلي",
+    "category": "كص وزن",
+    "price": 13000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761511662342,
+    "name": "طبق شاورما دجاج شبابي",
+    "category": "كص وزن",
+    "price": 16000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556478420,
+    "type": "subheading",
+    "name": "كص لحم",
+    "category": "ساندويش"
+  },
+  {
+    "id": 1761556548697,
+    "name": "ساندويش حجري لحم",
+    "category": "ساندويش",
+    "price": 5000,
+    "imageUrl": "assets/images/WhatsApp_Image_2025-11-03_at_03.19.06_2e0b33b3.jpg",
+    "description": "ساندويج حجري لحم طماطه طرشي"
+  },
+  {
+    "id": 1761556564533,
+    "name": "ساندويش حجري دبل لحم",
+    "category": "ساندويش",
+    "price": 6000,
+    "imageUrl": "assets/images/WhatsApp_Image_2025-11-03_at_03.19.06_2e0b33b3.jpg",
+    "description": ""
+  },
+  {
+    "id": 1761556577011,
+    "name": "ساندويش فرنسي لحم",
+    "category": "ساندويش",
+    "price": 6000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556593340,
+    "name": "ساندويش فرنسي دبل لحم",
+    "category": "ساندويش",
+    "price": 7000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556608760,
+    "name": "ساندويش دونر حجري لبناني لحم",
+    "category": "ساندويش",
+    "price": 5000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556616349,
+    "name": "ساندويش كهربائي لحم",
+    "category": "ساندويش",
+    "price": 6000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556624311,
+    "name": "ساندويش كهربائي دبل لحم",
+    "category": "ساندويش",
+    "price": 7000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556631818,
+    "name": "ساندويش كهربائي لبناني لحم",
+    "category": "ساندويش",
+    "price": 6000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556639442,
+    "name": "صاج لحم",
+    "category": "ساندويش",
+    "price": 6000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556645850,
+    "name": "وجبة عربي صاج لحم",
+    "category": "ساندويش",
+    "price": 7500,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556659161,
+    "type": "subheading",
+    "name": "كص دجاج",
+    "category": "ساندويش"
+  },
+  {
+    "id": 1761556666806,
+    "name": "ساندويش شاورما دجاج",
+    "category": "ساندويش",
+    "price": 3500,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556673231,
+    "name": "ساندويش شاورما دجاج كهربائي",
+    "category": "ساندويش",
+    "price": 5000,
+    "imageUrl": "assets/images/WhatsApp_Image_2025-11-03_at_03.19.47_23d0b023.jpg",
+    "description": "ساندويج كهربائي دجاج ثوميه طرشي"
+  },
+  {
+    "id": 1761556679266,
+    "name": "ساندويش مكسيكي دجاج",
+    "category": "ساندويش",
+    "price": 6500,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556684831,
+    "name": "صاج شاورما دجاج",
+    "category": "ساندويش",
+    "price": 6500,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556692871,
+    "name": "وجبة عربي صاج شاورما دجاج",
+    "category": "ساندويش",
+    "price": 5000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556727220,
+    "name": "وجبة ماريا دجاج",
+    "category": "وجبات الشاورما",
+    "price": 6500,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556734171,
+    "name": "وجبة ستيشر دجاج",
+    "category": "وجبات الشاورما",
+    "price": 6500,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556749827,
+    "name": "وجبة شاورما دبل",
+    "category": "وجبات الشاورما",
+    "price": 8000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556764981,
+    "name": "فتة لحم",
+    "category": "الأطباق الجانبية",
+    "price": 12000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556773359,
+    "name": "فتة دجاج",
+    "category": "الأطباق الجانبية",
+    "price": 8000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556777814,
+    "name": "تشريب كص لحم",
+    "category": "الأطباق الجانبية",
+    "price": 12000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556785007,
+    "name": "ريزو لحم",
+    "category": "الأطباق الجانبية",
+    "price": 7000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556790352,
+    "name": "ريزو شاورما دجاج",
+    "category": "الأطباق الجانبية",
+    "price": 5000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556802168,
+    "name": "فنكر قدح",
+    "category": "المقبلات",
+    "price": 1500,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556808006,
+    "name": "طبق فنكر",
+    "category": "المقبلات",
+    "price": 2500,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556818967,
+    "name": "مقبلات صغير نوعين",
+    "category": "المقبلات",
+    "price": 2500,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556826939,
+    "name": "مقبلات وسط 4 انواع",
+    "category": "المقبلات",
+    "price": 5000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556834364,
+    "name": "مقبلات كبير 6 انواع",
+    "category": "المقبلات",
+    "price": 7000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556846425,
+    "name": "مشروبات غازية",
+    "category": "المشروبات",
+    "price": 5000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556859573,
+    "name": "لبن",
+    "category": "المشروبات",
+    "price": 500,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556867955,
+    "name": "بيسي مكينة",
+    "category": "المشروبات",
+    "price": 1000,
+    "imageUrl": "",
+    "description": ""
+  },
+  {
+    "id": 1761556876735,
+    "name": "ماء",
+    "category": "المشروبات",
+    "price": 250,
+    "imageUrl": "",
+    "description": ""
+  }
+]

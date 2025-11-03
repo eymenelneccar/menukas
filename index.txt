@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منيو إلكتروني</title>
+    <!-- تحميل Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- خط Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        // إعداد ألوان Tailwind المخصصة
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'beige': '#F5F5DC', // لون الخلفية
+                        'coffee': '#331A12', // لون الأزرار والسلة
+                        'peach': '#FFCC80', // لون الآيتيمات
+                        'accent': '#E53935', // لون التكحيل (التمييز)
+                    },
+                    fontFamily: {
+                        'sans': ['Cairo', 'Inter', 'sans-serif'], // استخدام خط Cairo للعربية
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* لإخفاء شريط التمرير */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+        /* لضمان عمل الخط العربي بشكل صحيح */
+        body {
+            font-family: 'Cairo', 'Inter', 'sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-beige font-sans">
+
+    <!-- حاوية التطبيق الرئيسية (تحاكي شاشة الجوال) -->
+    <div class="max-w-lg mx-auto min-h-screen bg-beige shadow-lg relative pb-24">
+
+        <!-- الهيدر: العنوان + زر السلة -->
+        <header class="flex justify-between items-center p-4 sticky top-0 bg-beige/80 backdrop-blur-sm z-10 border-b border-coffee/10">
+            <h1 class="text-2xl font-bold text-coffee">منيو كاتالوج</h1>
+            <button id="open-cart-btn" class="relative">
+                <!-- أيقونة السلة -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-coffee">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c.51 0 .962-.343 1.087-.835l.383-1.437M7.5 14.25V5.106c0-.621.504-1.125 1.125-1.125h9.75c.621 0 1.125.504 1.125 1.125v9.144M7.5 14.25h1.875a.375.375 0 1 1 0 .75H7.5V14.25Z" />
+                </svg>
+                <!-- عداد السلة -->
+                <span id="cart-count-bubble" class="absolute -top-2 -right-2 bg-accent text-white text-xs font-bold rounded-full px-2 py-0.5 hidden">0</span>
+            </button>
+        </header>
+
+        <!-- قسم الهيرو (جديد) -->
+        <section class="p-4">
+            <div class="relative rounded-xl overflow-hidden shadow-lg h-56 bg-coffee">
+                <!-- يمكنك تغيير الصورة من هنا -->
+                <img src="https://placehold.co/600x400/331A12/FFCC80?text=أطباقنا+المميزة" alt="صورة ترحيبية" class="w-full h-full object-cover opacity-80">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end p-6">
+                    <h2 class="text-3xl font-bold text-white leading-tight">
+                        أهلاً بك في<br>منيو كاتالوج
+                    </h2>
+                </div>
+            </div>
+        </section>
+
+        <!-- شريط الأقسام (قابل للتمرير) -->
+        <nav class="p-4"> <!-- تم تعديل الحشو -->
+            <div id="categories-nav" class="grid grid-cols-4 gap-4"> <!-- تغيير: من flex إلى grid -->
+                <!-- سيتم ملء الأزرار هنا بواسطة الجافاسكربت -->
+            </div>
+        </nav>
+
+        <!-- قسم عرض المنتجات -->
+        <main id="items-container" class="p-4 grid grid-cols-2 gap-4"> <!-- تغيير: من col-1 إلى col-2 -->
+            <!-- سيتم ملء المنتجات هنا -->
+        </main>
+
+        <!-- شريط التنقل السفلي -->
+        <footer class="fixed bottom-0 left-0 right-0 max-w-lg mx-auto bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.05)] z-10 border-t border-coffee/10">
+            <div id="bottom-nav" class="flex justify-around items-center p-2">
+                <!-- سيتم ملء الأيقونات هنا -->
+            </div>
+        </footer>
+
+        <!-- نافذة السلة (مخفية افتراضيًا) -->
+        <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden" aria-hidden="true">
+            <!-- حاوية السلة الجانبية -->
+            <div id="cart-drawer" class="fixed top-0 right-0 w-full max-w-md h-full bg-beige z-50 shadow-xl transform translate-x-full transition-transform duration-300 ease-in-out">
+                
+                <!-- هيدر السلة -->
+                <div class="flex justify-between items-center p-4 border-b border-coffee/20">
+                    <h2 class="text-xl font-bold text-coffee">سلة المشتريات</h2>
+                    <button id="close-cart-btn">
+                        <!-- أيقونة إغلاق -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-coffee">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- محتويات السلة -->
+                <div id="cart-items" class="p-4 space-y-4 overflow-y-auto" style="height: calc(100vh - 160px);">
+                    <!-- سيتم ملء عناصر السلة هنا -->
+                    <!-- <p class="text-center text-coffee/70">سلتك فارغة.</p> -->
+                </div>
+
+                <!-- فوتر السلة (الإجمالي والطلب) -->
+                <div class="absolute bottom-0 left-0 right-0 p-4 bg-beige border-t border-coffee/20">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-lg font-semibold text-coffee">الإجمالي:</span>
+                        <span id="cart-total" class="text-2xl font-bold text-accent">0 ر.س</span>
+                    </div>
+                    <button class="w-full bg-accent text-white py-3 rounded-lg font-bold text-lg hover:bg-red-700 transition-colors">
+                        إتمام الطلب
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- بيانات المنيو الوهمية ---
+            const menuData = {
+                "مقبلات": [
+                    { id: 1, name: "بروشيتا الطماطم", description: "خبز محمص مع طماطم طازجة، ريحان، وثوم.", price: 25, image: "https://placehold.co/100x100/331A12/FFCC80?text=مقبلات" },
+                    { id: 2, name: "حلقات البصل المقرمشة", description: "تقدم مع صلصة الباربيكيو الكريمية.", price: 30, image: "https://placehold.co/100x100/331A12/FFCC80?text=مقبلات" },
+                    { id: 3, name: "أجنحة دجاج بافلو", description: "أجنحة دجاج حارة تقدم مع صلصة الرانش.", price: 40, image: "https://placehold.co/100x100/331A12/FFCC80?text=مقبلات" },
+                ],
+                "رئيسية": [
+                    { id: 4, name: "ستيك ريب آي", description: "قطعة ستيك 300 جرام مشوية حسب الطلب.", price: 120, image: "https://placehold.co/100x100/331A12/FFCC80?text=رئيسي" },
+                    { id: 5, name: "سلمون مشوي", description: "فيليه سلمون طازج مع الهليون والليمون.", price: 95, image: "https://placehold.co/100x100/331A12/FFCC80?text=رئيسي" },
+                    { id: 6, name: "باستا ألفريدو بالدجاج", description: "باستا فيتوتشيني بصلصة ألفريدو الكريمية.", price: 70, image: "https://placehold.co/100x100/331A12/FFCC80?text=رئيسي" },
+                ],
+                "حلويات": [
+                    { id: 7, name: "تشيز كيك فراولة", description: "طبقة غنية من التشيز كيك مع صوص الفراولة.", price: 35, image: "https://placehold.co/100x100/331A12/FFCC80?text=حلى" },
+                    { id: 8, name: "براوني الشوكولاتة", description: "براوني دافئ يقدم مع آيس كريم فانيلا.", price: 40, image: "https://placehold.co/100x100/331A12/FFCC80?text=حلى" },
+                ],
+                "مشروبات": [
+                    { id: 9, name: "عصير برتقال طازج", description: "عصير برتقال طبيعي 100%.", price: 20, image: "https://placehold.co/100x100/331A12/FFCC80?text=مشروب" },
+                    { id: 10, name: "موهيتو ليمون ونعناع", description: "مشروب منعش بالليمون والنعناع.", price: 25, image: "https://placehold.co/100x100/331A12/FFCC80?text=مشروب" },
+                ]
+            };
+            
+            // أيقونات شريط التنقل السفلي
+            const navIcons = {
+                "مقبلات": `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 mb-1"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L1.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.25 12l2.846.813a4.5 4.5 0 0 1 3.09 3.09L25.75 18l-.813 2.846a4.5 4.5 0 0 1-3.09 3.09L18.25 24l-2.846-.813a4.5 4.5 0 0 1-3.09-3.09L11.75 18l.813-2.846a4.5 4.5 0 0 1 3.09-3.09L18.25 12Z" /></svg>`,
+                "رئيسية": `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 mb-1"><path stroke-linecap="round" stroke-linejoin="round" d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" /></svg>`,
+                "حلويات": `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 mb-1"><path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-8.25M12 4.875A3.375 3.375 0 0 0 12 1.5v3.375Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 11.25h16.5a1.5 1.5 0 0 1 1.5 1.5v3.75a1.5 1.5 0 0 1-1.5 1.5H3.75a1.5 1.5 0 0 1-1.5-1.5v-3.75a1.5 1.5 0 0 1 1.5-1.5Z" /></svg>`,
+                "مشروبات": `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 mb-1"><path stroke-linecap="round" stroke-linejoin="round" d="M.75 3.75h16.5a1.5 1.5 0 0 1 1.5 1.5v11.25a1.5 1.5 0 0 1-1.5 1.5H.75a1.5 1.5 0 0 1-1.5-1.5V5.25a1.5 1.5 0 0 1 1.5-1.5Zm13.5 0V.75" /></svg>`
+            };
+
+            // --- عناصر الواجهة ---
+            const itemsContainer = document.getElementById('items-container');
+            const categoriesNav = document.getElementById('categories-nav');
+            const bottomNav = document.getElementById('bottom-nav');
+            const cartModal = document.getElementById('cart-modal');
+            const cartDrawer = document.getElementById('cart-drawer');
+            const openCartBtn = document.getElementById('open-cart-btn');
+            const closeCartBtn = document.getElementById('close-cart-btn');
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotalEl = document.getElementById('cart-total');
+            const cartCountBubble = document.getElementById('cart-count-bubble');
+
+            // --- حالة التطبيق ---
+            let cart = [];
+            let currentCategory = Object.keys(menuData)[0]; // أول قسم
+
+            // --- دوال العرض ---
+
+            // عرض أزرار الأقسام (العلوي والسفلي)
+            function renderCategories() {
+                categoriesNav.innerHTML = '';
+                bottomNav.innerHTML = '';
+                Object.keys(menuData).forEach(category => {
+                    
+                    // شريط الأقسام العلوي (مربعات)
+                    const btn = document.createElement('button');
+                    btn.className = `category-btn flex flex-col items-center justify-center p-3 rounded-xl shadow-lg aspect-square transition-all ${
+                        category === currentCategory ? 'bg-accent text-white scale-105 shadow-accent/50' : 'bg-white text-coffee hover:bg-white/80'
+                    }`;
+                    
+                    // نعدل أيقونة SVG لتكون أكبر ونزيل الهامش السفلي
+                    const iconHtml = (navIcons[category] || '')
+                        .replace('w-6 h-6', 'w-10 h-10') // تكبير الأيقونة
+                        .replace('mb-1', ''); // إزالة الهامش
+
+                    btn.innerHTML = `
+                        ${iconHtml}
+                        <span class="mt-2 text-sm font-bold text-center">${category}</span>
+                    `;
+                    btn.dataset.category = category;
+                    categoriesNav.appendChild(btn);
+
+
+                    // شريط التنقل السفلي
+                    const navItem = document.createElement('button');
+                    navItem.className = `category-btn flex flex-col items-center text-xs transition-colors ${
+                        category === currentCategory ? 'text-accent' : 'text-coffee/60'
+                    }`;
+                    navItem.dataset.category = category;
+                    navItem.innerHTML = `
+                        ${navIcons[category] || ''}
+                        <span>${category}</span>
+                    `;
+                    bottomNav.appendChild(navItem);
+                });
+
+                // إضافة مستمعي الأحداث للأزرار الجديدة
+                document.querySelectorAll('.category-btn').forEach(btn => {
+                    btn.addEventListener('click', () => changeCategory(btn.dataset.category));
+                });
+            }
+
+            // عرض المنتجات حسب القسم
+            function renderMenuItems(category) {
+                itemsContainer.innerHTML = '';
+                menuData[category].forEach(item => {
+                    const itemCard = document.createElement('div');
+                    // تغيير: تصميم الكارت من أفقي إلى عمودي (مربع)
+                    itemCard.className = 'bg-peach rounded-xl shadow-md overflow-hidden flex flex-col';
+                    itemCard.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-32 object-cover">
+                        <div class="p-3 flex flex-col flex-1">
+                            <h3 class="font-bold text-md text-coffee truncate">${item.name}</h3>
+                            <p class="text-sm text-coffee/80 mt-1 break-words flex-1 h-10">${item.description}</p> <!-- تحديد ارتفاع بسيط للوصف -->
+                            <div class="flex justify-between items-center mt-3">
+                                <span class="font-bold text-md text-accent whitespace-nowrap">${item.price} ر.س</span>
+                                <button class="add-to-cart-btn bg-coffee text-white w-9 h-9 flex items-center justify-center rounded-full hover:bg-coffee/80 transition-colors flex-shrink-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    // إضافة المستمع لزر "أضف للسلة"
+                    itemCard.querySelector('.add-to-cart-btn').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        addToCart(item);
+                    });
+                    itemsContainer.appendChild(itemCard);
+                });
+            }
+
+            // عرض محتويات السلة
+            function renderCart() {
+                cartItemsContainer.innerHTML = '';
+                let total = 0;
+
+                if (cart.length === 0) {
+                    cartItemsContainer.innerHTML = `<p class="text-center text-coffee/70 mt-10">سلتك فارغة.</p>`;
+                } else {
+                    cart.forEach(item => {
+                        const cartItem = document.createElement('div');
+                        cartItem.className = 'flex justify-between items-center bg-peach/50 p-3 rounded-lg';
+                        cartItem.innerHTML = `
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-coffee truncate">${item.name}</h4>
+                                <span class="text-accent font-semibold">${item.price} ر.س</span>
+                            </div>
+                            <div class="flex items-center space-x-3 rtl:space-x-reverse">
+                                <button data-id="${item.id}" class="cart-quantity-change" data-change="-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-coffee/70 hover:text-accent"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
+                                </button>
+                                <span class="font-bold text-coffee w-5 text-center">${item.quantity}</span>
+                                <button data-id="${item.id}" class="cart-quantity-change" data-change="1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-coffee/70 hover:text-accent"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
+                                </button>
+                                <button data-id="${item.id}" class="cart-remove-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-red-500 hover:text-red-700"><path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12.54 0c-.342.052-.682.107-1.022.166m3.74 0a-.6.6 0 0 1-.6-.6V3.6c0-.33.27-.6.6-.6h4.2c.33 0 .6.27.6.6v1.59c0 .33-.27.6-.6.6m-3.245 0H12" /></svg>
+                                </button>
+                            </div>
+                        `;
+                        cartItemsContainer.appendChild(cartItem);
+                        total += item.price * item.quantity;
+                    });
+                }
+                cartTotalEl.textContent = `${total} ر.س`;
+                updateCartCount();
+                
+                // إضافة المستمعات لأزرار السلة
+                cartItemsContainer.querySelectorAll('.cart-quantity-change').forEach(btn => {
+                    btn.addEventListener('click', () => updateCartQuantity(btn.dataset.id, parseInt(btn.dataset.change)));
+                });
+                cartItemsContainer.querySelectorAll('.cart-remove-item').forEach(btn => {
+                    btn.addEventListener('click', () => removeFromCart(btn.dataset.id));
+                });
+            }
+
+            // تحديث عداد السلة
+            function updateCartCount() {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                if (totalItems > 0) {
+                    cartCountBubble.textContent = totalItems;
+                    cartCountBubble.classList.remove('hidden');
+                } else {
+                    cartCountBubble.classList.add('hidden');
+                }
+            }
+
+            // --- دوال التحكم ---
+
+            // تغيير القسم
+            function changeCategory(category) {
+                currentCategory = category;
+                renderCategories(); // لإعادة تلوين الزر النشط
+                renderMenuItems(category);
+            }
+
+            // فتح/إغلاق السلة
+            function toggleCart(show) {
+                if (show) {
+                    cartModal.classList.remove('hidden');
+                    setTimeout(() => {
+                        cartDrawer.classList.remove('translate-x-full');
+                    }, 10); // تأخير بسيط لبدء التحريك
+                } else {
+                    cartDrawer.classList.add('translate-x-full');
+                    setTimeout(() => {
+                        cartModal.classList.add('hidden');
+                    }, 300); // إخفاء بعد انتهاء التحريك
+                }
+            }
+
+            // إضافة للسلة
+            function addToCart(item) {
+                const existingItem = cart.find(cartItem => cartItem.id === item.id);
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    cart.push({ ...item, quantity: 1 });
+                }
+                renderCart();
+            }
+
+            // تحديث كمية المنتج
+            function updateCartQuantity(itemId, change) {
+                const item = cart.find(cartItem => cartItem.id == itemId);
+                if (item) {
+                    item.quantity += change;
+                    if (item.quantity <= 0) {
+                        removeFromCart(itemId);
+                    } else {
+                        renderCart();
+                    }
+                }
+            }
+
+            // إزالة من السلة
+            function removeFromCart(itemId) {
+                cart = cart.filter(cartItem => cartItem.id != itemId);
+                renderCart();
+            }
+
+            // --- تشغيل التطبيق ---
+            
+            // إضافة مستمعي الأحداث الرئيسية
+            openCartBtn.addEventListener('click', () => toggleCart(true));
+            closeCartBtn.addEventListener('click', () => toggleCart(false));
+            cartModal.addEventListener('click', (e) => {
+                // إغلاق عند الضغط على الخلفية
+                if (e.target === cartModal) {
+                    toggleCart(false);
+                }
+            });
+
+            // العرض الأولي
+            renderCategories();
+            renderMenuItems(currentCategory);
+            renderCart(); // للعرض الأولي (سلة فارغة)
+        });
+    </script>
+</body>
+</html>
+
+
+
+

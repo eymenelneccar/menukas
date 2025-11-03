@@ -1,0 +1,32 @@
+[
+  {
+    "name": "كص وزن",
+    "size": "small",
+    "imageUrl": ""
+  },
+  {
+    "name": "ساندويش",
+    "size": "small",
+    "imageUrl": ""
+  },
+  {
+    "name": "وجبات الشاورما",
+    "size": "small",
+    "imageUrl": ""
+  },
+  {
+    "name": "الأطباق الجانبية",
+    "size": "small",
+    "imageUrl": ""
+  },
+  {
+    "name": "المقبلات",
+    "size": "small",
+    "imageUrl": ""
+  },
+  {
+    "name": "المشروبات",
+    "size": "small",
+    "imageUrl": ""
+  }
+]

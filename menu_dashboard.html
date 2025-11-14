@@ -115,6 +115,11 @@
           <label class="block text-sm text-gray-700 mb-1">رابط خريطة (Google Maps)</label>
           <input id="mapLink" type="url" class="w-full border rounded-lg px-3 py-2" placeholder="https://maps.google.com/...">
         </div>
+        <div class="sm:col-span-2">
+          <label class="block text-sm text-gray-700 mb-1">رابط Google Sheets Web App</label>
+          <input id="sheetsWebhookUrl" type="url" class="w-full border rounded-lg px-3 py-2" placeholder="https://script.google.com/macros/s/ID/exec">
+          <p class="text-xs text-gray-500 mt-1">استخدم رابط النشر لتطبيق Google Apps Script (ينتهي بـ <code>/exec</code>).</p>
+        </div>
         <div class="sm:col-span-2 flex items-center gap-3 mt-2">
           <input id="ordersEnabled" type="checkbox" class="scale-125">
           <label for="ordersEnabled" class="text-gray-700">تفعيل استقبال الطلبات أونلاين</label>
@@ -778,7 +783,7 @@
     const SAVE_HERO_ENDPOINT = '/api/save-hero';
 
     let categories = [];
-    let settings = { whatsappNumber: '', contactNumber: '', locationName: '', mapLink: '', ordersEnabled: false, theme: { textColor: '#111827', bgColor: '#ffffff', dividerColor: '#2563EB', backButtonColor: '#374151', navBgColor: '#0f172a', textAdBgColor: '#0b2545', itemNameColor: '#ffffff', categoryTitleColor: '#2563EB', itemCardBgColor: '#374151', itemDescriptionColor: '#D1D5DB', itemPriceColor: '#93C5FD', addToCartBgColor: '#2563EB' } };
+    let settings = { whatsappNumber: '', contactNumber: '', locationName: '', mapLink: '', sheetsWebhookUrl: '', ordersEnabled: false, theme: { textColor: '#111827', bgColor: '#ffffff', dividerColor: '#2563EB', backButtonColor: '#374151', navBgColor: '#0f172a', textAdBgColor: '#0b2545', itemNameColor: '#ffffff', categoryTitleColor: '#2563EB', itemCardBgColor: '#374151', itemDescriptionColor: '#D1D5DB', itemPriceColor: '#93C5FD', addToCartBgColor: '#2563EB' } };
     let announcements = { megaEnabled: false, megaTitle: '', megaImageUrl: '', megaLink: '', textEnabled: false, textContent: '' };
 
     const tabsNav = document.getElementById('tabs');
@@ -913,6 +918,9 @@
       uploadInput: (() => { const i = document.createElement('input'); i.type = 'file'; i.accept = 'image/*'; i.className = 'hidden'; document.body.appendChild(i); return i; })()
     };
 
+    // مؤشر السحب لإعادة ترتيب الفئات
+    let dragIndex = null;
+
     function renderCategories() {
       catsEls.list.innerHTML = '';
       if (!categories.length) {
@@ -950,7 +958,11 @@
               </div>
             </div>
           </div>
-          <div>
+          <div class="flex flex-col items-end gap-2">
+            <div class="flex items-center gap-2">
+              <button type="button" data-action="move-up" class="px-2 py-1 rounded-lg border" title="تحريك لأعلى">▲</button>
+              <button type="button" data-action="move-down" class="px-2 py-1 rounded-lg border" title="تحريك لأسفل">▼</button>
+            </div>
             <button type="button" data-action="delete" class="px-3 py-2 rounded-lg bg-red-600 text-white">حذف</button>
           </div>
         `;
@@ -999,6 +1011,60 @@
         // حذف
         row.querySelector('[data-action="delete"]').addEventListener('click', () => {
           categories.splice(idx, 1);
+          renderCategories();
+          buildCategoryOptions();
+          buildCategoryNav();
+        });
+
+        // نقل لأعلى/أسفل
+        const upBtn = row.querySelector('[data-action="move-up"]');
+        const downBtn = row.querySelector('[data-action="move-down"]');
+        if (upBtn) upBtn.addEventListener('click', () => {
+          if (idx > 0) {
+            const [m] = categories.splice(idx, 1);
+            categories.splice(idx - 1, 0, m);
+            renderCategories();
+            buildCategoryOptions();
+            buildCategoryNav();
+          }
+        });
+        if (downBtn) downBtn.addEventListener('click', () => {
+          if (idx < categories.length - 1) {
+            const [m] = categories.splice(idx, 1);
+            categories.splice(idx + 1, 0, m);
+            renderCategories();
+            buildCategoryOptions();
+            buildCategoryNav();
+          }
+        });
+
+        // سحب-إفلات لإعادة الترتيب
+        row.setAttribute('draggable', 'true');
+        row.addEventListener('dragstart', (e) => {
+          dragIndex = idx;
+          e.dataTransfer.effectAllowed = 'move';
+          row.classList.add('opacity-60');
+        });
+        row.addEventListener('dragend', () => {
+          dragIndex = null;
+          row.classList.remove('opacity-60');
+          [...catsEls.list.children].forEach(el => el.classList.remove('bg-gray-50'));
+        });
+        row.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+          row.classList.add('bg-gray-50');
+        });
+        row.addEventListener('dragleave', () => {
+          row.classList.remove('bg-gray-50');
+        });
+        row.addEventListener('drop', (e) => {
+          e.preventDefault();
+          row.classList.remove('bg-gray-50');
+          const targetIndex = idx;
+          if (dragIndex == null || dragIndex === targetIndex) return;
+          const [moved] = categories.splice(dragIndex, 1);
+          categories.splice(targetIndex, 0, moved);
           renderCategories();
           buildCategoryOptions();
           buildCategoryNav();
@@ -1093,6 +1159,7 @@
       contactNumber: document.getElementById('contactNumber'),
       locationName: document.getElementById('locationName'),
       mapLink: document.getElementById('mapLink'),
+      sheetsWebhookUrl: document.getElementById('sheetsWebhookUrl'),
       ordersEnabled: document.getElementById('ordersEnabled'),
       btnSave: document.getElementById('btnSaveSettings')
     };
@@ -1136,6 +1203,7 @@
       settingsEls.contactNumber.value = settings.contactNumber || '';
       settingsEls.locationName.value = settings.locationName || '';
       settingsEls.mapLink.value = settings.mapLink || '';
+      if (settingsEls.sheetsWebhookUrl) settingsEls.sheetsWebhookUrl.value = settings.sheetsWebhookUrl || '';
       settingsEls.ordersEnabled.checked = !!settings.ordersEnabled;
       // قيم الثيم
       const t = settings.theme || {};
@@ -1159,6 +1227,7 @@
         contactNumber: settingsEls.contactNumber.value.trim(),
         locationName: settingsEls.locationName.value.trim(),
         mapLink: settingsEls.mapLink.value.trim(),
+        sheetsWebhookUrl: settingsEls.sheetsWebhookUrl?.value.trim() || settings.sheetsWebhookUrl || '',
         ordersEnabled: settingsEls.ordersEnabled.checked,
         theme: {
           textColor: themeEls.textColor?.value || settings.theme?.textColor || '#111827',

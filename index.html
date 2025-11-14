@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>كص ستيشن</title>
+    <title>رازقي كهوة وفرن</title>
     <!-- تحميل Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- خط Inter -->
@@ -20,10 +20,10 @@
                         'beige': '#F5F5DC', // لون الخلفية
                         'coffee': '#331A12', // لون الأزرار والسلة
                         'peach': '#FFCC80', // لون الآيتيمات
-                        'accent': '#E53935', // لون التكحيل (التمييز)
+                        'accent': '#2c98aa', // لون التكحيل (التمييز)
                     },
                     fontFamily: {
-                        'sans': ['Cairo', 'Inter', 'sans-serif'], // استخدام خط Cairo للعربية
+                        'sans': ['MSjawhara', 'Cairo', 'Inter', 'sans-serif'], // استخدام خط Cairo للعربية
                     }
                 }
             }
@@ -42,9 +42,16 @@
         .overflow-touch {
             -webkit-overflow-scrolling: touch;
         }
+        @font-face {
+            font-family: 'MSjawhara';
+            src: url('MSjawhara-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
         /* لضمان عمل الخط العربي بشكل صحيح */
         body {
-            font-family: 'Cairo', 'Inter', 'sans-serif;
+            font-family: 'MSjawhara', 'Cairo', 'Inter', sans-serif;
         }
             /* مؤثرات الحركة */
         @keyframes fade-in {
@@ -71,6 +78,7 @@
         @media (prefers-reduced-motion: reduce) {
             .animate-fade-in, .animate-slide-up { animation: none !important; }
         }
+        .star-icon { display: inline-block; width: 2rem; height: 2rem; background-color: #2c98aa; -webkit-mask: url('star.png') no-repeat center / contain; mask: url('star.png') no-repeat center / contain; }
 </style>
 </head>
 <body class="bg-white font-sans">
@@ -89,27 +97,30 @@
                     <span id="sticky-subheading" class="text-sm font-normal text-coffee/70"></span>
                 </div>
                 <!-- العنوان الافتراضي -->
-                <h1 id="site-title" data-default="كص ستيشن" class="text-2xl font-bold text-coffee">كص ستيشن</h1>
+                <h1 id="site-title" data-default="رازقي كهوة وفرن" class="text-2xl font-bold text-coffee">رازقي كهوة وفرن</h1>
                 <!-- اسم القسم الصغير أسفل العنوان عندما لا يظهر المركّب -->
                 <span id="site-section-name" class="text-xs font-normal text-coffee/60 mt-0.5 hidden"></span>
             </div>
-            <button id="open-cart-btn" class="relative">
-                <!-- أيقونة السلة -->
-                <img src="shopping-bag.png" alt="أيقونة السلة" class="w-8 h-8 object-contain" loading="eager" />
-                <!-- عداد السلة -->
-                <span id="cart-count-bubble" class="absolute -top-2 -right-2 bg-accent text-white text-xs font-bold rounded-full px-2 py-0.5 hidden">0</span>
-            </button>
+            <div class="flex items-center gap-2">
+                <button id="open-cart-btn" class="relative">
+                    <img src="shopping-bag.png" alt="أيقونة السلة" class="w-8 h-8 object-contain" loading="eager" />
+                    <span id="cart-count-bubble" class="absolute -top-2 -right-2 bg-accent text-white text-xs font-bold rounded-full px-2 py-0.5 hidden">0</span>
+                </button>
+                <a id="review-btn" href="review.html" aria-label="قيمنا" class="w-8 h-8 flex items-center justify-center">
+                    <span class="star-icon" aria-hidden="true"></span>
+                </a>
+            </div>
         </header>
 
         <!-- قسم الهيرو (جديد) -->
         <!-- hero section padding: from px-3 to px-2 -->
         <section id="hero-section" class="px-2 py-4">
-<div class="relative rounded-xl overflow-hidden shadow-lg h-64 sm:h-72 lg:h-80 bg-coffee animate-fade-in">
+<div class="relative rounded-xl overflow-hidden shadow-lg h-64 sm:h-72 lg:h-80 bg-accent animate-fade-in">
                 <!-- يمكنك تغيير الصورة من هنا -->
-                <img id="hero-image" src="https://placehold.co/600x400/331A12/FFCC80?text=أطباقنا+المميزة" alt="صورة ترحيبية" class="w-full h-full object-cover opacity-80">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end p-6">
+                <img id="hero-image" alt="صورة الهيرو" class="hidden w-full h-full object-cover">
+                <div class="absolute inset-0 flex items-end p-6">
                     <h2 id="hero-title" class="text-3xl font-bold text-white leading-tight">
-                        <span id="hero-title-text">أهلاً بك في</span><br><span id="hero-subtitle">كص ستيشن</span>
+                        <span id="hero-title-text"></span><br><span id="hero-subtitle"></span>
                     </h2>
                 </div>
             </div>
@@ -139,7 +150,7 @@
             </div>
             <div class="border-t border-coffee/10 text-center text-[11px] text-coffee/60 px-2 py-1">
               تم صنعها بواسطة |
-              <a href="https://iqrarabic.com/" target="_blank" rel="noopener" class="font-semibold text-red-600/70 hover:text-red-700/80 hover:underline">İQR MENU</a>
+              <a href="https://iqrarabic.com/" target="_blank" rel="noopener" class="font-semibold text-accent/70 hover:text-accent/80 hover:underline">İQR MENU</a>
             </div>
             <!-- قائمة المزيد المنبثقة -->
             <div id="more-menu" class="hidden fixed bottom-16 left-0 right-0 max-w-lg mx-auto px-3 z-20">
@@ -184,7 +195,7 @@
                         <span class="text-lg font-semibold text-coffee">الإجمالي:</span>
                         <span id="cart-total" class="text-2xl font-bold text-accent">0 د.ع</span>
                     </div>
-                    <button id="submit-order-btn" class="w-full bg-accent text-white py-3 rounded-lg font-bold text-lg hover:bg-red-700 transition-colors inline-flex items-center justify-center gap-2">
+                    <button id="submit-order-btn" class="w-full bg-accent text-white py-3 rounded-lg font-bold text-lg hover:bg-accent/90 transition-colors inline-flex items-center justify-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M2.25 12c0-4.28 3.47-7.75 7.75-7.75s7.75 3.47 7.75 7.75-3.47 7.75-7.75 7.75S2.25 16.28 2.25 12Zm9.25-3.25a.75.75 0 0 0-1.5 0v3.25c0 .414.336.75.75.75h3.25a.75.75 0 0 0 0-1.5h-2.5V8.75Z"/></svg>
                         إرسال الطلب
                     </button>
@@ -212,7 +223,7 @@
                     <p id="item-preview-description" class="text-sm text-coffee/80"></p>
                     <div class="flex justify-between items-center mt-2">
                         <span id="item-preview-price" class="text-lg font-bold text-coffee"></span>
-                        <button id="item-preview-add" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">أضف للسلة</button>
+                        <button id="item-preview-add" class="bg-accent text-white px-4 py-2 rounded-lg hover:bg-accent/90 transition-colors">أضف للسلة</button>
                     </div>
                 </div>
             </div>
@@ -227,7 +238,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10"><path d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm1 6v6a1 1 0 1 1-2 0V8a1 1 0 1 1 2 0Zm-1 10a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"/></svg>
                 </div>
                 <div id="app-alert-message" class="text-coffee text-base leading-7"></div>
-                <button id="app-alert-ok" class="mt-4 w-full bg-accent text-white py-2.5 rounded-lg font-bold hover:bg-red-700 transition-colors">حسناً</button>
+                <button id="app-alert-ok" class="mt-4 w-full bg-accent text-white py-2.5 rounded-lg font-bold hover:bg-accent/90 transition-colors">حسناً</button>
             </div>
         </div>
 
@@ -270,7 +281,7 @@
             let categoryImages = {
                 "مقبلات": "https://placehold.co/300x300/FFCC80/331A12?text=مقبلات",
                 "رئيسية": "https://placehold.co/300x300/0EA5E9/ffffff?text=رئيسية",
-                "حلويات": "https://placehold.co/300x300/EF4444/ffffff?text=حلويات",
+                "حلويات": "https://placehold.co/300x300/2C98AA/ffffff?text=حلويات",
                 "مشروبات": "https://placehold.co/300x300/10B981/ffffff?text=مشروبات"
             };
 
@@ -441,7 +452,7 @@
                     // إذا كان العنصر عنوانًا فرعيًا، اعرضه كفاصل بصري وليس بطاقة منتج
                     if (item && item.type === 'subheading') {
                         const sub = document.createElement('div');
-                        sub.className = 'subheading-marker col-span-full w-full px-4 py-2 my-3 bg-[#F5E9D5]/80 text-coffee font-bold rounded-lg animate-fade-in';
+                        sub.className = 'subheading-marker col-span-full w-full px-4 py-2 my-3 bg-[#3792a9]/40 text-coffee font-bold rounded-lg animate-fade-in';
                         sub.setAttribute('data-subheading', item.name || '');
                         sub.textContent = item.name;
                         itemsContainer.appendChild(sub);
@@ -450,7 +461,7 @@
 
                     const itemCard = document.createElement('div');
                     // تغيير: تصميم الكارت من أفقي إلى عمودي (مربع)
-                    itemCard.className = 'bg-[#F5E9D5]/60 rounded-xl shadow-md hover:shadow-lg overflow-hidden flex flex-col animate-slide-up transition duration-300 hover:scale-[1.02]';
+                    itemCard.className = 'bg-white rounded-xl shadow-md hover:shadow-lg overflow-hidden flex flex-col animate-slide-up transition duration-300 hover:scale-[1.02]';
                     itemCard.innerHTML = `
                         <div class="relative w-full pt-[80%]">
                             <img src="${item.image}" alt="${item.name}" class="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw">
@@ -460,7 +471,7 @@
                             <p class="text-sm lg:text-base text-coffee/80 mt-1 break-words flex-1 line-clamp-2">${item.description}</p>
                             <div class="flex justify-between items-center mt-4">
                                 <span class="font-bold text-md lg:text-lg text-coffee whitespace-nowrap">${item.price} د.ع</span>
-                                <button class="add-to-cart-btn bg-red-600 text-white w-11 h-11 lg:w-12 lg:h-12 flex items-center justify-center rounded-full hover:bg-red-700 transition-colors flex-shrink-0 touch-manipulation" aria-label="أضف ${item.name} إلى السلة">
+                                <button class="add-to-cart-btn bg-accent text-white w-11 h-11 lg:w-12 lg:h-12 flex items-center justify-center rounded-full hover:bg-accent/90 transition-colors flex-shrink-0 touch-manipulation" aria-label="أضف ${item.name} إلى السلة">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                     </svg>
@@ -586,12 +597,28 @@
                 if (!enabled) { if (heroTimer) { clearInterval(heroTimer); heroTimer = null; } return; }
 
                 const images = Array.isArray(hero?.images) ? hero.images.filter(Boolean) : [];
-                const first = images[0] || img?.getAttribute('src') || 'https://placehold.co/600x400/331A12/FFCC80?text=أطباقنا+المميزة';
-                if (img) img.src = first;
+                if (img) {
+                    if (images.length) {
+                        img.classList.remove('hidden');
+                        img.src = images[0];
+                    } else {
+                        img.classList.add('hidden');
+                        img.removeAttribute('src');
+                    }
+                }
 
-                if (titleTextEl) titleTextEl.textContent = (hero?.title || 'أهلاً بك في');
+                const defaultTitle = 'أهلاً بك في';
                 const defaultSubtitle = document.getElementById('site-title')?.textContent || 'القائمة';
-                if (subtitleEl) subtitleEl.textContent = (hero?.subtitle || defaultSubtitle);
+                if (titleTextEl) {
+                    let t = defaultTitle;
+                    if (hero && ('title' in hero)) t = hero.title || '';
+                    titleTextEl.textContent = t;
+                }
+                if (subtitleEl) {
+                    let s = defaultSubtitle;
+                    if (hero && ('subtitle' in hero)) s = hero.subtitle || '';
+                    subtitleEl.textContent = s;
+                }
 
                 // تشغيل تلقائي
                 if (heroTimer) { clearInterval(heroTimer); heroTimer = null; }
@@ -638,7 +665,7 @@
                                 </div>
                             </div>
                             <div class="flex items-center">
-                                <button data-id="${item.id}" class="cart-remove-item p-2 rounded-md hover:bg-red-50" aria-label="حذف" title="حذف">
+                                <button data-id="${item.id}" class="cart-remove-item p-2 rounded-md hover:bg-accent/10" aria-label="حذف" title="حذف">
                                     <img src="delete.png" alt="حذف" class="w-6 h-6 object-contain" draggable="false" />
                                 </button>
                             </div>
@@ -788,19 +815,7 @@
                     showAppAlert('يرجى إدخال الاسم والرقم لإتمام الطلب.', 'warning');
                     return;
                 }
-                // إرسال البيانات إلى Google Sheets بشكل صامت وغير معطّل للتجربة
-                try {
-                    const orderTotal = cart.reduce((sum, it) => sum + (Number(it.price) || 0) * (Number(it.quantity) || 0), 0);
-                    const payload = {
-                        name: info.name,
-                        phone: info.phone,
-                        total: Math.round(orderTotal || 0),
-                        timestamp: new Date().toISOString(),
-                    };
-                    // استدعاء غير متزامن بدون انتظار
-                    sendOrderToSheetsSilent(payload);
-                } catch {}
-
+                // جهّز رسالة الطلب وافتح واتساب فورًا أولًا
                 const message = buildOrderMessage(info);
                 const waNum = (settings.whatsappNumber || '').replace(/[^0-9]/g, '');
                 if (waNum) {
@@ -810,6 +825,8 @@
                     showAppAlert('تم تجهيز الطلب. لا يوجد رقم واتساب في الإعدادات ليتم الإرسال المباشر.', 'info');
                     console.log(message);
                 }
+
+                // لا يتم إرسال الطلبات إلى Google Sheets؛ التقييم فقط هو الذي يُرسل
             }
 
             function updateCallLink() {
@@ -1085,7 +1102,7 @@
              });
     </script>
     <!-- زر السهم للأعلى: يظهر عند التمرير ويعيدك لبداية الأقسام -->
-    <button id="scroll-up-btn" aria-label="العودة إلى الأقسام" class="hidden fixed bottom-20 right-4 z-[200] w-11 h-11 rounded-full bg-red-600/60 text-white shadow-lg hover:bg-red-600/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-red-400/50 flex items-center justify-center">
+    <button id="scroll-up-btn" aria-label="العودة إلى الأقسام" class="hidden fixed bottom-20 right-4 z-[200] w-11 h-11 rounded-full bg-accent/60 text-white shadow-lg hover:bg-accent/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-accent/50 flex items-center justify-center">
         <span class="sr-only">إلى الأقسام</span>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75 12 8.25l7.5 7.5" /></svg>
     </button>
